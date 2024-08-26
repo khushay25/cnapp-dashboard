@@ -5,7 +5,7 @@ import AddWidgetMenu from "./AddWidgetMenu";
 const Category = ({ category, addWidget, removeWidget }) => {
   return (
     <div className="mx-2 my-4">
-      <h2 className="text-lg font-bold">{category.name}</h2>
+      <h2 className="text-lg font-bold my-2">{category.name}</h2>
       <div className="flex space-x-2">
         {category.widgets.map((widget) => (
           <Widget
