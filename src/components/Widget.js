@@ -28,18 +28,15 @@ const Widget = ({ widget, removeWidget }) => {
   const chartRef = useRef(null);
 
   const handleRemoveClick = () => {
-    // Show confirmation dialog
     setShowConfirmation(true);
   };
 
   const confirmRemoval = () => {
-    // Confirm removal and call removeWidget
-    removeWidget(widget.id); // Pass the widget ID or identifier
+    removeWidget(widget.id);
     setShowConfirmation(false);
   };
 
   const cancelRemoval = () => {
-    // Cancel removal and close the confirmation dialog
     setShowConfirmation(false);
   };
 
@@ -92,7 +89,6 @@ const Widget = ({ widget, removeWidget }) => {
 
   useEffect(() => {
     return () => {
-      // Ensure chart instance cleanup
       if (chartRef.current && chartRef.current.chartInstance) {
         chartRef.current.chartInstance.destroy();
       }

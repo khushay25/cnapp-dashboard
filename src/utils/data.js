@@ -6,6 +6,7 @@ export const initialData = {
       widgets: [
         {
           id: 1,
+          isSelected: true,
           name: "Cloud Account Circular Chart",
           content: {
             chartType: "doughnut",
@@ -22,6 +23,7 @@ export const initialData = {
         },
         {
           id: 2,
+          isSelected: true,
           name: "Cloud Account Risk Assessment",
           content: {
             chartType: "doughnut",
@@ -44,6 +46,7 @@ export const initialData = {
       widgets: [
         {
           id: 4,
+          isSelected: true,
           name: "Top 5 Namespace specific alerts",
           content: {
             data: [],
@@ -51,6 +54,7 @@ export const initialData = {
         },
         {
           id: 5,
+          isSelected: true,
           name: "Workload Alerts",
           content: {
             data: [],
@@ -60,6 +64,7 @@ export const initialData = {
     },
     {
       id: 3,
+      isSelected: true,
       name: "Registry Scan",
       widgets: [
         {
@@ -87,6 +92,7 @@ export const initialData = {
         },
         {
           id: 8,
+          isSelected: true,
           name: "Image Security Issues",
           content: {
             chartType: "horizontalBar",

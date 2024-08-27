@@ -19,10 +19,8 @@ function App() {
     ),
   }));
 
-  // Example default category
   const defaultCategory = categories.length > 0 ? categories[0] : null;
 
-  // Placeholder for addWidget and removeWidget functions
   const addWidget = (categoryId, widget) => {
     setCategories((prevCategories) =>
       prevCategories.map((category) =>

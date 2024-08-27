@@ -19,7 +19,7 @@ function Heading({ category, addWidget, removeWidget, allCategories }) {
     }
   };
 
-  if (!category) return null; // Early return if category is undefined
+  if (!category) return null;
 
   return (
     <div className="flex justify-between items-center">

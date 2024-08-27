@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RxCross1 } from "react-icons/rx";
 
 const AddWidgetMenu = ({
@@ -8,33 +8,46 @@ const AddWidgetMenu = ({
   onCloseMenu,
 }) => {
   const [activeTab, setActiveTab] = useState(selectedCategoryId);
-  const [widgetSelections, setWidgetSelections] = useState(() =>
-    categories.reduce((acc, category) => {
-      acc[category.id] = category.widgets.reduce((widgetAcc, widget) => {
-        widgetAcc[widget.id] = widget.isSelected;
-        return widgetAcc;
-      }, {});
-      return acc;
-    }, {})
-  );
+  const [tempCategories, setTempCategories] = useState([]);
 
-  const handleToggleWidget = (widget, categoryId) => {
-    const updatedSelections = { ...widgetSelections };
-    updatedSelections[categoryId][widget.id] =
-      !updatedSelections[categoryId][widget.id];
-    setWidgetSelections(updatedSelections);
+  // Initialize tempCategories with a deep copy of categories on component mount
+  useEffect(() => {
+    setTempCategories(JSON.parse(JSON.stringify(categories)));
+  }, [categories]);
+
+  const handleToggleWidget = (widgetId, categoryId) => {
+    // Toggle the selection state in the tempCategories
+    setTempCategories((prevCategories) =>
+      prevCategories.map((category) =>
+        category.id === categoryId
+          ? {
+              ...category,
+              widgets: category.widgets.map((widget) =>
+                widget.id === widgetId
+                  ? { ...widget, isSelected: !widget.isSelected }
+                  : widget
+              ),
+            }
+          : category
+      )
+    );
   };
 
   const handleConfirm = () => {
-    // Notify parent about all widget selections changes
-    categories.forEach((category) => {
+    // Apply the temporary changes to the actual categories in the dashboard
+    tempCategories.forEach((category) => {
       category.widgets.forEach((widget) => {
-        if (widgetSelections[category.id]?.[widget.id] !== widget.isSelected) {
-          onToggleWidget(category.id, widget.id); // Update dashboard
+        if (
+          widget.isSelected !==
+          categories
+            .find((c) => c.id === category.id)
+            .widgets.find((w) => w.id === widget.id).isSelected
+        ) {
+          onToggleWidget(category.id, widget.id);
         }
       });
     });
-    onCloseMenu();
+    onCloseMenu(); // Close the menu
   };
 
   return (
@@ -52,7 +65,7 @@ const AddWidgetMenu = ({
         </p>
         <div className="px-6 flex-1 overflow-y-auto">
           <div className="flex my-4">
-            {categories.map((category) => (
+            {tempCategories.map((category) => (
               <button
                 key={category.id}
                 className={`pr-4 py-2 border-b-2 font-semibold ${
@@ -67,7 +80,7 @@ const AddWidgetMenu = ({
             ))}
           </div>
           <div>
-            {categories
+            {tempCategories
               .find((category) => category.id === activeTab)
               ?.widgets.map((widget) => (
                 <div
@@ -77,8 +90,8 @@ const AddWidgetMenu = ({
                   <input
                     className="text-blue-900"
                     type="checkbox"
-                    checked={widgetSelections[activeTab]?.[widget.id] || false}
-                    onChange={() => handleToggleWidget(widget, activeTab)}
+                    checked={widget.isSelected}
+                    onChange={() => handleToggleWidget(widget.id, activeTab)}
                   />
                   <p>{widget.name}</p>
                 </div>
