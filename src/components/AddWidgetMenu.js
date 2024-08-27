@@ -10,13 +10,11 @@ const AddWidgetMenu = ({
   const [activeTab, setActiveTab] = useState(selectedCategoryId);
   const [tempCategories, setTempCategories] = useState([]);
 
-  // Initialize tempCategories with a deep copy of categories on component mount
   useEffect(() => {
     setTempCategories(JSON.parse(JSON.stringify(categories)));
   }, [categories]);
 
   const handleToggleWidget = (widgetId, categoryId) => {
-    // Toggle the selection state in the tempCategories
     setTempCategories((prevCategories) =>
       prevCategories.map((category) =>
         category.id === categoryId
@@ -34,7 +32,6 @@ const AddWidgetMenu = ({
   };
 
   const handleConfirm = () => {
-    // Apply the temporary changes to the actual categories in the dashboard
     tempCategories.forEach((category) => {
       category.widgets.forEach((widget) => {
         if (
@@ -47,7 +44,7 @@ const AddWidgetMenu = ({
         }
       });
     });
-    onCloseMenu(); // Close the menu
+    onCloseMenu();
   };
 
   return (
